@@ -184,6 +184,7 @@
         .bubble-row { display: flex; align-items: flex-end; gap: 5px; }
         .msg-right .bubble-row { flex-direction: row-reverse; }
 
+        /* 更新：引入气泡颜色的 CSS 变量 */
         .msg-bubble { padding: 8px 12px; border-radius: 15px; font-size: calc(14px * var(--font-scale)); line-height: 1.4; background: var(--kakao-bubble-left-bg); color: black; position: relative; word-break: break-word; }
         .msg-right .msg-bubble { background: var(--kakao-bubble-right-bg); border-top-right-radius: 2px; }
         .msg-left .msg-bubble { border-top-left-radius: 2px; }
@@ -193,12 +194,13 @@
         .msg-read { color: #555; font-size: calc(10px * var(--font-scale)); font-weight: 700; }
         .msg-time { color: #666; font-size: calc(10px * var(--font-scale)); }
 
+        /* 自动翻译分割线与文本样式 */
         .translate-divider { border-top: 1px solid rgba(0, 0, 0, 0.08); margin: 6px 0; padding-top: 6px; }
         .translated-text { font-size: calc(13px * var(--font-scale)); color: #666; line-height: 1.4; word-break: break-word; }
         body.dark-mode .translate-divider { border-top: 1px solid rgba(255, 255, 255, 0.15); }
         body.dark-mode .translated-text { color: #CCC; }
 
-        /* 底部输入框精确匹配 */
+        /* 底部输入框 */
         .chat-input-bar { background: white; padding: 8px 15px; display: flex; align-items: center; gap: 12px; padding-bottom: env(safe-area-inset-bottom, 8px); }
         .chat-action-icon { width: 26px; height: 26px; stroke: #888; cursor: pointer; display: flex; justify-content: center; align-items: center; }
         .chat-input-wrapper { flex: 1; background: #F5F5F5; display: flex; align-items: center; border-radius: 20px; padding: 6px 12px; height: 38px; }
@@ -259,12 +261,13 @@
         body.dark-mode .settings-item input, body.dark-mode .settings-item textarea, body.dark-mode .settings-item select { color: #FFF; }
         body.dark-mode .settings-item textarea.large-box, body.dark-mode .worldbook-box, body.dark-mode .wb-toggle-box { background: #2A2A2A; border-color: #444; color: #EEE; }
         body.dark-mode .bubble-white { background: #333; color: #FFF; }
+        /* 更新：让夜间模式也能继承自定义气泡颜色，如果用户未自定义则使用默认暗色 */
         body.dark-mode .msg-bubble { color: #FFF; }
         body.dark-mode .msg-right .msg-bubble { color: #000; }
         body.dark-mode .chat-input-wrapper { background: #333; }
         body.dark-mode .chat-input { color: #FFF; }
         body.dark-mode .post-modal { background: #1A1A1A; color: #FFF; }
-        body.dark-mode #new-friend-name, body.dark-mode #new-friend-note, body.dark-mode #new-friend-prompt, body.dark-mode #kkt-post-text { background: #333; border-color: #444; color: #FFF; }
+        body.dark-mode #new-friend-name, body.dark-mode #new-friend-note, body.dark-mode #new-friend-prompt { background: #333; border-color: #444; color: #FFF; }
         body.dark-mode .modal-btns div { border-color: #444 !important; }
         body.dark-mode .action-menu { background: #1A1A1A; border-color: #333; }
         body.dark-mode .menu-item { color: #FFF; border-color: #333; }
@@ -273,14 +276,6 @@
         body.dark-mode .scheme-item:active { background: #2A2A2A; }
         body.dark-mode #rename-scheme-input, body.dark-mode #rename-font-input, body.dark-mode #font-url-input, body.dark-mode #rename-css-input { background: #333; border-color: #444; color: #FFF; }
         body.dark-mode .input-card { background: #1A1A1A; }
-        body.dark-mode #kakao-more { background: #121212 !important; }
-        body.dark-mode #kkt-more-bg { background: #1A1A1A !important; border-color: #333 !important; }
-        body.dark-mode #kkt-more-ava { background: #333 !important; border-color: #333 !important; }
-        body.dark-mode #kkt-post-grid { background: #121212 !important; }
-
-        /* 新增：个人主页背景图向下渐变遮罩 */
-        .kkt-bg-gradient { position: absolute; bottom: 0; left: 0; width: 100%; height: 180px; background: linear-gradient(to bottom, rgba(255,255,255,0), #FFFFFF); pointer-events: none; z-index: 1; }
-        body.dark-mode .kkt-bg-gradient { background: linear-gradient(to bottom, rgba(18,18,18,0), #121212); }
     </style>
 </head>
 <body>
@@ -312,6 +307,7 @@
             <div class="icon-grid">
                 <div class="app-item" onclick="showPage('settings')"><div class="icon-box" id="icon-settings"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg></div><span class="app-name">设置</span></div>
                 <div class="app-item" onclick="showPage('theme')"><div class="icon-box" id="icon-theme"><svg viewBox="0 0 24 24"><path d="m12 3 1.912 5.886h6.19l-5.007 3.638L17.007 18.41 12 14.772l-5.007 3.638 1.912-5.886-5.007-3.638h6.19z"/></svg></div><span class="app-name">美化</span></div>
+                <!-- 全新 KakaoTalk 矢量图标 -->
                 <div class="app-item" onclick="showPage('kakao')">
                     <div class="icon-box" style="background-color:#FEE500; border:none;" id="icon-kakao">
                         <svg viewBox="0 0 24 24" style="stroke:none; fill:#3C1E1E;">
@@ -392,88 +388,8 @@
             <div class="nav-tab-v2 dimmed">
                 <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
             </div>
-            <div class="nav-tab-v2 dimmed" onclick="showPage('kakao-more')">
-                <svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>
-            </div>
-        </div>
-    </div>
-
-    <!-- KakaoTalk 更多(个人主页)页面 -->
-    <div id="kakao-more" class="page" style="padding-bottom: 60px; background: #FFF;">
-        <div style="flex: 1; overflow-y: auto; display: flex; flex-direction: column;">
-            <!-- 背景图与上半部分 -->
-            <div id="kkt-more-bg" style="background: #FFFFFF; background-size: cover; background-position: center; position: relative; padding-bottom: 20px;" onclick="triggerPhoto('kkt-more-bg')">
-                <!-- 新增：渐变遮罩 -->
-                <div class="kkt-bg-gradient"></div>
-                <!-- 顶部按钮 -->
-                <div style="position: absolute; top: 15px; left: 15px; width: 32px; height: 32px; background: rgba(0,0,0,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 2;" onclick="event.stopPropagation(); showPage('kakao')">
-                    <svg viewBox="0 0 24 24" style="width: 20px; stroke: #FFF; fill: none; stroke-width: 2;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </div>
-                <div style="position: absolute; top: 15px; right: 15px; display: flex; gap: 10px; z-index: 2;">
-                    <div style="background: rgba(0,0,0,0.3); padding: 6px 14px; border-radius: 16px; color: #FFF; font-size: 13px; cursor: pointer; display: flex; align-items: center;" onclick="event.stopPropagation();">编辑</div>
-                    <div style="width: 32px; height: 32px; background: rgba(0,0,0,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="event.stopPropagation();">
-                        <svg viewBox="0 0 24 24" style="width: 20px; fill: #FFF;"><circle cx="5" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle></svg>
-                    </div>
-                </div>
-                
-                <!-- 占位，让头像在靠下的位置 -->
-                <div style="height: 250px;"></div>
-                
-                <!-- 个人信息区 -->
-                <div style="padding: 0 20px; position: relative; z-index: 2;">
-                    <div id="kkt-more-ava" style="width: 70px; height: 70px; border-radius: 50%; background: #FFFFFF; background-size: cover; background-position: center; cursor: pointer; margin-bottom: 10px; border: 1px solid #EEE;" onclick="event.stopPropagation(); triggerPhoto('kkt-more-ava')"></div>
-                    <div class="name editable" contenteditable="true" id="kkt-more-name" onblur="saveKktMoreProfile()" style="font-size: 20px; font-weight: 800; margin-bottom: 4px; color: #000;" onclick="event.stopPropagation();">Eun</div>
-                    <div class="bio editable" contenteditable="true" id="kkt-more-bio" onblur="saveKktMoreProfile()" style="font-size: 14px; color: #333;" onclick="event.stopPropagation();">ʚ행복 확산ɞ</div>
-                </div>
-
-                <!-- 按钮区 -->
-                <div style="display: flex; justify-content: center; margin: 20px 20px 0; position: relative; z-index: 2;">
-                    <div style="display: flex; background: rgba(255,255,255,0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 12px; width: 100%; border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 2px 10px rgba(0,0,0,0.05);" onclick="event.stopPropagation();">
-                        <div style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 12px 0; font-size: 14px; color: #333; gap: 6px; border-right: 1px solid rgba(0,0,0,0.05);">
-                            <svg viewBox="0 0 24 24" style="width: 18px; fill: none; stroke: currentColor; stroke-width: 2;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                            我的聊天室
-                        </div>
-                        <div style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 12px 0; font-size: 14px; color: #333; gap: 6px; cursor: pointer;" onclick="openKktPostModal()">
-                            <svg viewBox="0 0 24 24" style="width: 18px; fill: none; stroke: currentColor; stroke-width: 2;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-                            New Post
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 照片墙 Grid -->
-            <div id="kkt-post-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 2px; background: #FFF;">
-                <!-- 动态内容 -->
-            </div>
-        </div>
-
-        <!-- 底部导航 -->
-        <div class="kakao-nav-v2">
-            <div class="nav-tab-v2 dimmed" onclick="showPage('kakao')">
-                <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-            </div>
             <div class="nav-tab-v2 dimmed">
-                <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
-            </div>
-            <div class="nav-tab-v2 dimmed">
-                <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.15 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-            </div>
-            <div class="nav-tab-v2">
                 <svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>
-            </div>
-        </div>
-    </div>
-
-    <!-- 新建动态弹窗 -->
-    <div id="kkt-post-overlay" class="modal-overlay">
-        <div class="post-modal">
-            <h4 style="text-align: center; margin-bottom: 15px; color: #000;">New Post</h4>
-            <div id="kkt-post-img-preview" style="display: none; width: 100%; height: 150px; background-size: cover; background-position: center; border-radius: 10px; margin-bottom: 10px;"></div>
-            <div style="color: var(--accent-blue); font-size: 14px; margin-bottom: 10px; cursor: pointer; text-align: center;" onclick="triggerPhoto('kkt-post-img')">+ 添加图片 (可选)</div>
-            <textarea id="kkt-post-text" style="width: 100%; border: 1px solid #EEE; border-radius: 10px; padding: 10px; outline: none; box-sizing: border-box; resize: none; min-height: 80px; color: #333;" placeholder="发布动态..."></textarea>
-            <div class="modal-btns" style="display: flex; border-top: 1px solid #EEE; margin-top: 5px;">
-                <div style="flex: 1; padding: 15px; text-align: center; cursor: pointer; color: #666; border-right: 1px solid #EEE;" onclick="closeKktPostModal()">取消</div>
-                <div style="flex: 1; padding: 15px; text-align: center; cursor: pointer; color: var(--accent-blue); font-weight: 600;" onclick="submitKktPost()">确认</div>
             </div>
         </div>
     </div>
@@ -589,6 +505,87 @@
         </div>
     </div>
 
+    <!-- 添加好友弹窗 -->
+    <div id="add-friend-overlay" class="modal-overlay">
+        <div class="post-modal">
+            <h4 style="text-align: center; margin-bottom: 15px;">添加好友</h4>
+            <div style="display:flex; justify-content:center; margin-bottom: 15px;">
+                <div id="new-friend-ava" style="width: 70px; height: 70px; border-radius: 25px; background-size: cover; background-image: var(--default-avatar); cursor: pointer;" onclick="triggerPhoto('new-friend-ava')"></div>
+            </div>
+            <input type="text" id="new-friend-name" style="width: 100%; border: 1px solid #EEE; border-radius: 10px; padding: 10px; margin-bottom: 10px; outline: none; box-sizing: border-box;" placeholder="好友姓名">
+            <input type="text" id="new-friend-note" style="width: 100%; border: 1px solid #EEE; border-radius: 10px; padding: 10px; margin-bottom: 10px; outline: none; box-sizing: border-box;" placeholder="备注">
+            <textarea id="new-friend-prompt" style="width: 100%; border: 1px solid #EEE; border-radius: 10px; padding: 10px; outline: none; box-sizing: border-box; resize: none; min-height: 80px;" placeholder="角色设定"></textarea>
+            <div class="modal-btns" style="display: flex; border-top: 1px solid #EEE; margin-top: 5px;">
+                <div style="flex: 1; padding: 15px; text-align: center; cursor: pointer; color: #666; border-right: 1px solid #EEE;" onclick="closeAddFriendModal()">取消</div>
+                <div style="flex: 1; padding: 15px; text-align: center; cursor: pointer; color: var(--accent-blue); font-weight: 600;" onclick="submitNewFriend()">添加</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 系统设置页面 -->
+    <div id="settings" class="page settings-page">
+        <div class="settings-header">
+            <div onclick="showPage('home')" style="cursor:pointer;"><svg viewBox="0 0 24 24" style="width:24px; stroke:#000; fill:none; stroke-width:2;"><path d="m15 18-6-6 6-6"/></svg></div>
+            <div>系统设置</div>
+            <div style="width:24px;"></div>
+        </div>
+        
+        <div class="settings-group">
+            <div class="settings-label">API 配置 (真实连接)</div>
+            <div class="settings-card">
+                <div class="settings-item">
+                    <label>API 地址</label>
+                    <input type="text" id="api-base" placeholder="https://api.openai.com/v1" onblur="saveSysSettings()">
+                </div>
+                <div class="settings-item">
+                    <label>API Key</label>
+                    <input type="password" id="api-key" placeholder="sk-..." onblur="saveSysSettings()">
+                </div>
+                <div class="settings-item">
+                    <label>选择模型</label>
+                    <select id="api-model" onchange="saveSysSettings()" style="width: 50%; border: none; outline: none; background: transparent; text-align: right; color: inherit; direction: rtl;">
+                        <option value="">输入或拉取</option>
+                    </select>
+                </div>
+                <div class="settings-item" style="justify-content: center; color: #000; font-weight: 600; cursor: pointer;" onclick="pullModels()" id="btn-pull-models">
+                    拉取模型
+                </div>
+                <div class="settings-item" style="justify-content: space-between; color: #000; font-weight: 600; cursor: pointer; padding: 0;">
+                    <div style="flex:1; text-align:center; padding:12px 15px; border-right:1px solid #EEE;" onclick="saveCurrentScheme()">保存当前方案</div>
+                    <div style="flex:1; text-align:center; padding:12px 15px;" onclick="openSelectSchemeModal()">选择方案</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-group">
+            <div class="settings-label">对话参数</div>
+            <div class="settings-card">
+                <div class="settings-item column">
+                    <div style="display: flex; justify-content: space-between; width: 100%;">
+                        <label>Temperature (模型温度)</label>
+                        <span id="temp-val" style="color: #888; font-size: calc(14px * var(--font-scale));">1.0</span>
+                    </div>
+                    <input type="range" id="api-temp" min="0" max="2" step="0.1" value="1" oninput="document.getElementById('temp-val').innerText = this.value; saveSysSettings()" style="width: 100%; margin-top: 10px;">
+                </div>
+                <div class="settings-item">
+                    <label>记忆条数</label>
+                    <input type="number" id="api-memory" value="50" onblur="saveSysSettings()" style="width: 60px; text-align: right; border: none; outline: none; background: transparent; font-size: calc(14px * var(--font-scale)); color: inherit;">
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-group">
+            <div class="settings-label">外观设置</div>
+            <div class="settings-card">
+                <div class="settings-item">
+                    <label>夜间模式</label>
+                    <label class="switch"><input type="checkbox" id="sys-dark-mode" onchange="toggleDarkMode(this.checked); saveSysSettings()"><span class="slider"></span></label>
+                </div>
+            </div>
+        </div>
+        <div style="height: 40px;"></div>
+    </div>
+
     <!-- 全新美化中心页面 -->
     <div id="theme" class="page settings-page">
         <div class="settings-header">
@@ -607,6 +604,7 @@
                 <div class="settings-item" onclick="showPage('theme-fonts')" style="cursor: pointer;">
                     <label>字体设置</label><span>＞</span>
                 </div>
+                <!-- 新增：气泡设置入口 -->
                 <div class="settings-item" onclick="showPage('theme-bubbles')" style="cursor: pointer;">
                     <label>气泡设置</label><span>＞</span>
                 </div>
@@ -812,7 +810,7 @@
         </div>
     </div>
 
-    <!-- CSS 方案选择弹窗 -->
+    <!-- 新增：CSS 方案选择弹窗 -->
     <div id="css-scheme-list-overlay" class="modal-overlay">
         <div class="post-modal" style="max-height: 60vh; display: flex; flex-direction: column; padding: 0;">
             <h4 style="text-align: center; margin: 15px 0; font-size: 16px; font-weight: 700; flex-shrink: 0;">选择 CSS 方案<br><span style="font-size:11px; font-weight:400; color:#888;">(长按方案可重命名)</span></h4>
@@ -823,7 +821,7 @@
         </div>
     </div>
 
-    <!-- CSS 方案重命名弹窗 -->
+    <!-- 新增：CSS 方案重命名弹窗 -->
     <div id="rename-css-scheme-overlay" class="modal-overlay">
         <div class="post-modal">
             <h4 style="text-align: center; margin-bottom: 15px; font-size: 16px; font-weight: 700;">重命名方案</h4>
@@ -840,45 +838,6 @@
         let customFriends = JSON.parse(localStorage.getItem('kkt_friends')) || [];
         let activeFriendIndex = -1;
         let tempNewFriendAva = null;
-
-        // --- 个人动态功能 ---
-        let kktPosts = JSON.parse(localStorage.getItem('kkt_posts')) || [];
-        let tempKktPostImg = null;
-
-        function openKktPostModal() {
-            document.getElementById('kkt-post-overlay').style.display = 'flex';
-            document.getElementById('kkt-post-text').value = '';
-            document.getElementById('kkt-post-img-preview').style.display = 'none';
-            tempKktPostImg = null;
-        }
-
-        function closeKktPostModal() {
-            document.getElementById('kkt-post-overlay').style.display = 'none';
-        }
-
-        function submitKktPost() {
-            const text = document.getElementById('kkt-post-text').value.trim();
-            if(!text && !tempKktPostImg) return;
-            kktPosts.unshift({ id: Date.now(), text, img: tempKktPostImg });
-            localStorage.setItem('kkt_posts', JSON.stringify(kktPosts));
-            closeKktPostModal();
-            renderKktPosts();
-        }
-
-        function renderKktPosts() {
-            const grid = document.getElementById('kkt-post-grid');
-            if(!grid) return;
-            grid.innerHTML = kktPosts.map(p => `
-                <div style="aspect-ratio: 1; background: ${p.img ? `url(${p.img}) center/cover` : '#F5F5F5'}; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                    ${p.text ? `<div style="background: rgba(255,255,255,0.6); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); padding: 5px 12px; border-radius: 15px; font-size: 12px; color: #333; max-width: 80%; text-align: center; word-break: break-word; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">${p.text}</div>` : ''}
-                </div>
-            `).join('');
-        }
-
-        function saveKktMoreProfile() {
-            localStorage.setItem('kkt_more_name', document.getElementById('kkt-more-name').innerText);
-            localStorage.setItem('kkt_more_bio', document.getElementById('kkt-more-bio').innerText);
-        }
 
         // --- 气泡与高级 CSS 逻辑 ---
         let cssSchemes = JSON.parse(localStorage.getItem('css_schemes')) || { bubble: [], ui: [] };
@@ -1139,6 +1098,7 @@
             const fontSize = localStorage.getItem('theme_font_size') || '1';
             const fontColor = localStorage.getItem('theme_font_color') || '';
 
+            // 同步表单 UI
             document.getElementById('font-url-input').value = fontUrl;
             document.getElementById('font-size-slider').value = fontSize;
             document.getElementById('font-size-val').innerText = Math.round(fontSize * 100) + '%';
@@ -1161,7 +1121,7 @@
             }
             if (fontColor) {
                 styleStr += `
-                    .nickname, .user-id, .bio, .app-name, .widget-text, .title, .name, .name-k, .settings-item label, .original-text, #kkt-more-name, #kkt-more-bio { color: ${fontColor} !important; }
+                    .nickname, .user-id, .bio, .app-name, .widget-text, .title, .name, .name-k, .settings-item label, .original-text { color: ${fontColor} !important; }
                 `;
             }
 
@@ -1795,17 +1755,8 @@
                 } else if(themeTarget === 'chat-wallpaper') {
                     localStorage.setItem('img_chat-wallpaper', imgData);
                     document.documentElement.style.setProperty('--chat-bg-img', `url(${imgData})`);
-                } else if(themeTarget === 'kkt-more-bg') {
-                    document.getElementById('kkt-more-bg').style.backgroundImage = `url(${imgData})`;
-                    localStorage.setItem('img_kkt-more-bg', imgData);
-                } else if(themeTarget === 'kkt-more-ava') {
-                    document.getElementById('kkt-more-ava').style.backgroundImage = `url(${imgData})`;
-                    localStorage.setItem('img_kkt-more-ava', imgData);
-                } else if(themeTarget === 'kkt-post-img') {
-                    document.getElementById('kkt-post-img-preview').style.backgroundImage = `url(${imgData})`;
-                    document.getElementById('kkt-post-img-preview').style.display = 'block';
-                    tempKktPostImg = imgData;
                 } else if(themeTarget.startsWith('icon-')) {
+                    // 同步处理美化页面的图标更改
                     localStorage.setItem('img_' + themeTarget, imgData);
                     
                     const homeIcon = document.getElementById(themeTarget);
@@ -1850,33 +1801,21 @@
         window.onload = () => {
             loadSysSettings();
             applyFontSettings();
-            applyCustomCSS(); 
+            applyCustomCSS(); // 新增：初始化时应用自定义 CSS
 
+            // 初始化气泡颜色
             const leftColor = localStorage.getItem('theme_bubble_left_color') || '#FFFFFF';
             const rightColor = localStorage.getItem('theme_bubble_right_color') || '#FEE500';
             updateBubbleColor('left', leftColor);
             updateBubbleColor('right', rightColor);
 
             renderCustomFriends();
-            
-            // 渲染个人动态页面
-            renderKktPosts();
-            
-            const kktMoreName = localStorage.getItem('kkt_more_name') || 'Eun';
-            const kktMoreBio = localStorage.getItem('kkt_more_bio') || 'ʚ행복 확산ɞ';
-            document.getElementById('kkt-more-name').innerText = kktMoreName;
-            document.getElementById('kkt-more-bio').innerText = kktMoreBio;
-            
-            const kktMoreBg = localStorage.getItem('img_kkt-more-bg') || '';
-            if(kktMoreBg) document.getElementById('kkt-more-bg').style.backgroundImage = `url(${kktMoreBg})`;
-            const kktMoreAva = localStorage.getItem('img_kkt-more-ava') || '';
-            if(kktMoreAva) document.getElementById('kkt-more-ava').style.backgroundImage = `url(${kktMoreAva})`;
-
             const savedAva = localStorage.getItem('img_avatar-img') || '微信图片_20260307234707_22_2.jpg';
             document.getElementById('avatar-img').style.backgroundImage = `url(${savedAva})`;
             document.getElementById('k-my-ava').style.backgroundImage = `url(${savedAva})`;
             document.getElementById('banner-img').style.backgroundImage = `url('https://images.unsplash.com/photo-1518173946687-a4c8a9b749f5?q=80&w=1000')`;
 
+            // 载入自定义图标
             ['icon-settings','icon-theme','icon-kakao','icon-ins','icon-bubble','icon-weibo','icon-x','icon-weverse'].forEach(id => {
                 const iconData = localStorage.getItem('img_' + id);
                 if(iconData) {
@@ -1887,6 +1826,7 @@
                 }
             });
 
+            // 载入聊天壁纸
             const chatWall = localStorage.getItem('img_chat-wallpaper');
             if (chatWall) {
                 document.documentElement.style.setProperty('--chat-bg-img', `url(${chatWall})`);
